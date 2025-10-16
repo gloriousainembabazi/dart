@@ -23,14 +23,16 @@ double averageMark(){
 
 //approach utilize a costructor and  ensure that all approaches must have right output
 
-// Approach 1: Without using a list, attributes are required
-class StudentRequired {
-  final String name;
-  final int markOne;
-  final int markTwo;
-  final int markThree;
 
-  StudentRequired({
+
+// Approach 1: Without using a list, attributes are required
+class StudentNoList {
+  String name;
+  int markOne;
+  int markTwo;
+  int markThree;
+
+  StudentNoList({
     required this.name,
     required this.markOne,
     required this.markTwo,
@@ -55,19 +57,19 @@ class StudentRequired {
 // Approach 2: Attributes are nullable with default values
 class StudentNullable {
   String? name;
-  int markOne;
-  int markTwo;
-  int markThree;
+  int? markOne;
+  int? markTwo;
+  int? markThree;
 
   StudentNullable({
-    this.name,
+    this.name = '',
     this.markOne = 0,
     this.markTwo = 0,
     this.markThree = 0,
   });
 
   double averageMark() {
-    return (markOne + markTwo + markThree) / 3;
+    return ((markOne ?? 0) + (markTwo ?? 0) + (markThree ?? 0)) / 3;
   }
 
   String getGrade() {
@@ -81,18 +83,22 @@ class StudentNullable {
   }
 }
 
-// Approach 3: Using a list, properties are required
-class StudentList {
-  final String name;
-  final List<int> marks;
+// Approach 3: Using a list to store marks, properties are required
+class StudentWithList {
+  String name;
+  List<int> marks;
 
-  StudentList({
+  StudentWithList({
     required this.name,
     required this.marks,
-  }) : assert(marks.length == 3, 'Must provide exactly 3 marks');
+  });
 
   double averageMark() {
-    return marks.reduce((a, b) => a + b) / marks.length;
+    int sum = 0;
+    for (int i = 0; i < marks.length; i++) {
+      sum += marks[i];
+    }
+    return marks.isNotEmpty ? sum / marks.length : 0;
   }
 
   String getGrade() {
